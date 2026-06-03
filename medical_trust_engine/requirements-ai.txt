@@ -1,0 +1,6 @@
+# Optional production AI dependencies. Install only on a machine with enough RAM/CPU/GPU.
+paddleocr==2.9.1
+paddlepaddle==2.6.2
+transformers==4.48.0
+torch==2.5.1
+sentence-transformers==3.3.1

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claim Detail</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="container wide">
+    <div class="topbar">
+      <h1>Claim {{ claim.claim_id }}</h1>
+      <a class="button secondary" href="/claims">Back to dashboard</a>
+    </div>
+
+    <section class="summary-grid">
+      <div class="card metric"><span>Risk Score</span><strong>{{ claim.risk_score }}</strong></div>
+      <div class="card metric"><span>Risk Level</span><strong class="{{ claim.risk_level|lower }}">{{ claim.risk_level }}</strong></div>
+      <div class="card metric"><span>Decision</span><strong>{{ claim.decision }}</strong></div>
+      <div class="card metric"><span>Document Type</span><strong>{{ claim.document_type }}</strong></div>
+    </section>
+
+    <section class="card owner-message">
+      <h2>Message to Owner</h2>
+      <pre>{{ detail.owner_message }}</pre>
+    </section>
+
+    <section class="card">
+      <h2>Review Notes</h2>
+      {% if detail.signals %}
+        <ul class="signals">
+          {% for s in detail.signals[:6] %}
+          <li><strong>{{ s.severity }}</strong> — {{ s.description }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No major fraud signal detected.</p>
+      {% endif %}
+    </section>
+
+    <section class="two-col">
+      <div class="card">
+        <h2>Detected Details</h2>
+        <p><strong>Hospital/Clinic:</strong> {{ detail.extracted.hospital_name or 'Not clearly detected' }}</p>
+        <p><strong>Date:</strong> {{ detail.extracted.dates[:2]|join(', ') if detail.extracted.dates else 'Not clearly detected' }}</p>
+        <p><strong>Doctor:</strong> {{ detail.extracted.doctor_names[:2]|join(', ') if detail.extracted.doctor_names else 'Not clearly detected' }}</p>
+        <p><strong>Amount:</strong> ₹{{ detail.extracted.max_amount if detail.extracted.max_amount else 'Not clearly detected' }}</p>
+        <p><strong>Invoice:</strong> {{ detail.extracted.invoice_numbers[:2]|join(', ') if detail.extracted.invoice_numbers else 'Not detected' }}</p>
+      </div>
+      <div class="card">
+        <h2>Verification Summary</h2>
+        <p><strong>Doctor:</strong> {{ detail.doctor.reasons[:2]|join('; ') if detail.doctor.reasons else 'No issue detected' }}</p>
+        <p><strong>Hospital/QR:</strong> {{ detail.hospital.reasons[:2]|join('; ') if detail.hospital.reasons else 'No issue detected' }}</p>
+        <p><strong>Signature/Stamp:</strong> {{ detail.signature_stamp.reasons[:2]|join('; ') if detail.signature_stamp.reasons else 'No issue detected' }}</p>
+        <p><strong>Medical Logic:</strong> {{ detail.medical.reasons[:2]|join('; ') if detail.medical.reasons else 'No issue detected' }}</p>
+      </div>
+    </section>
+
+    {% if show_debug_json %}
+    <details class="card debug">
+      <summary>Admin Debug JSON</summary>
+      <h3>Extracted Fields</h3><pre>{{ detail.extracted | tojson(indent=2) }}</pre>
+      <h3>Final Score Breakdown</h3><pre>{{ detail.final | tojson(indent=2) }}</pre>
+      <h3>Doctor Validation</h3><pre>{{ detail.doctor | tojson(indent=2) }}</pre>
+      <h3>Hospital Verification</h3><pre>{{ detail.hospital | tojson(indent=2) }}</pre>
+      <h3>Signature/Stamp</h3><pre>{{ detail.signature_stamp | tojson(indent=2) }}</pre>
+      <h3>Forensics</h3><pre>{{ detail.forensic | tojson(indent=2) }}</pre>
+      <h3>Behavior</h3><pre>{{ detail.behavior | tojson(indent=2) }}</pre>
+      <h3>Extracted Text</h3><pre>{{ detail.raw_text }}</pre>
+    </details>
+    {% endif %}
+  </main>
+</body>
+</html>

@@ -1,0 +1,16 @@
+[
+  {
+    "doctor_name": "Dr Ravi Kumar",
+    "registration_number": "TSMC12345",
+    "state": "Telangana",
+    "specialization": "General Physician",
+    "clinic": "Ravi Clinic"
+  },
+  {
+    "doctor_name": "Dr Priya Sharma",
+    "registration_number": "KMC56789",
+    "state": "Karnataka",
+    "specialization": "General Medicine",
+    "clinic": "Priya Health Care"
+  }
+]

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claims</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="container wide">
+    <div class="topbar">
+      <h1>Claims Dashboard</h1>
+      <a class="button secondary" href="/">Upload new</a>
+    </div>
+
+    <section class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Claim ID</th>
+            <th>Employee</th>
+            <th>Document</th>
+            <th>Risk</th>
+            <th>Level</th>
+            <th>Decision</th>
+            <th>Status</th>
+            <th>Owner Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for claim in claims %}
+          <tr>
+            <td><a href="/claims/{{ claim.claim_id }}/view">{{ claim.claim_id }}</a></td>
+            <td>{{ claim.employee_id }}</td>
+            <td>{{ claim.document_type }}</td>
+            <td>{{ claim.risk_score }}</td>
+            <td><span class="pill {{ claim.risk_level|lower }}">{{ claim.risk_level }}</span></td>
+            <td>{{ claim.decision }}</td>
+            <td>{{ claim.status }}</td>
+            <td>{{ (claim.owner_message or '')[:90] }}{% if claim.owner_message and claim.owner_message|length > 90 %}...{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

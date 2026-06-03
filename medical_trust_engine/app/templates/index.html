@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Document Trust Engine</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <h1>Medical Document Trust Engine</h1>
+      <p>Production-style fraud screening for medical bills, prescriptions, reports, and leave certificates.</p>
+    </section>
+
+    <section class="card">
+      <h2>Upload Document</h2>
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <label>Employee ID</label>
+        <input type="text" name="employee_id" placeholder="EMP001" required />
+
+        <label>Medical Document</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" required />
+
+        <button type="submit">Analyze Document</button>
+      </form>
+    </section>
+
+    <section class="card muted">
+      <h2>Production Checks Included</h2>
+      <div class="grid">
+        <span>PostgreSQL-ready database</span>
+        <span>MinIO object storage</span>
+        <span>Redis/Celery async workers</span>
+        <span>PaddleOCR-ready OCR</span>
+        <span>QR/invoice verification</span>
+        <span>Doctor registry provider hook</span>
+        <span>Signature/stamp matching</span>
+        <span>Image forensics</span>
+        <span>Owner-friendly message</span>
+      </div>
+    </section>
+
+    <a class="link" href="/claims">View all claims</a>
+  </main>
+</body>
+</html>
